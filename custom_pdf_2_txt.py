@@ -64,6 +64,9 @@ def main(argv):
         print("Missing output file entry!")
         sys.exit()
 
+    if __debug__:
+        dbgFileObj = open("debug_output.txt", "w", encoding="utf-8")
+
 #    pdb.set_trace()
     print_flag = False
     # reading input file line-by-line
@@ -111,17 +114,20 @@ def main(argv):
             print_flag = True
             tax_bill_entry, decl_form_entry, tax_ID_entry, tax_amount_entry = \
                 es.clear_current_setting()
-#            ofObj.write("<<<<製表日期>>>>\n")
+            if __debug__:
+                dbgFileObj.write("<<<<製表日期>>>>\n")
         elif ifStr[:2] == constant.END_TAX_ID_P2:
             print_flag = True
             tax_bill_entry, decl_form_entry, tax_ID_entry, tax_amount_entry = \
                 es.clear_current_setting()
-#            ofObj.write("<<<<頁碼>>>>\n")
+            if __debug__:
+                dbgFileObj.write("<<<<頁碼>>>>\n")
         elif ifStr.strip('\n') == constant.RECORD_COUNT:
             print_flag = True
             tax_bill_entry, decl_form_entry, tax_ID_entry, tax_amount_entry = \
                 es.clear_current_setting()
-#            ofObj.write("<<<<總筆數>>>>\n")
+            if __debug__:
+                dbgFileObj.write("<<<<總筆數>>>>\n")
 
 #        elif ifStr.strip('\n') == "":
 #            print_flag = False
@@ -142,7 +148,8 @@ def main(argv):
             if print_flag is True:
                 print_flag = False
                 print("處理稅單、報單資料")
-#                ofObj.write(ifStr)
+                if __debug__:
+                    dbgFileObj.write(ifStr)
             else:
                 if ifStr.strip('\n') != "":
                     if tax_bill_or_not is True:
@@ -151,41 +158,38 @@ def main(argv):
                     else:
                         declaration_form_list.append(ifStr.strip('\n'))
                         tax_bill_or_not = True
-#                    ofObj.write(ifStr)
+                    if __debug__:
+                        dbgFileObj.write(ifStr)
         elif tax_ID_entry is True:
             if print_flag is True:
                 print_flag = False
                 print("處理統一編號")
-#                ofObj.write(ifStr)
+                if __debug__:
+                    dbgFileObj.write(ifStr)
             else:
                 if ifStr.strip('\n') != "":
                     tax_ID_list.append(ifStr.strip('\n'))
-#                    ofObj.write(ifStr)
+                    if __debug__:
+                        dbgFileObj.write(ifStr)
         elif tax_amount_entry is True:
             if print_flag is True:
                 print_flag = False
                 print("金額")
-#                ofObj.write(ifStr)
+                if __debug__:
+                    dbgFileObj.write(ifStr)
             else:
                 if ifStr.strip('\n') != "":
                     tax_amount_list.append(ifStr.strip('\n'))
-#                    ofObj.write(ifStr)
-
-#        if ifStr.strip('\n') == "":
-#            a = 1
-#        else:
-#            ofObj.write(ifStr)
+                    if __debug__:
+                        dbgFileObj.write(ifStr)
 
         ifStr = ifObj.readline()
 
-    print(tax_bill_list)
-    print(declaration_form_list)
-    print(tax_ID_list)
-    print(tax_amount_list)
-    print("tax_bill_list length:", len(tax_bill_list))
-    print("declaration_form_list:", len(declaration_form_list))
-    print("tax_ID_list:", len(tax_ID_list))
-    print("tax_amount_llist:", len(tax_amount_list))
+    if __debug__:
+        dbgFileObj.write("tax_bill_list length:" + str(len(tax_bill_list)) + "\n")
+        dbgFileObj.write("declaration_form_list:" + str(len(declaration_form_list)) + "\n")
+        dbgFileObj.write("tax_ID_list:" + str(len(tax_ID_list)) + "\n")
+        dbgFileObj.write("tax_amount_llist:" + str(len(tax_amount_list)) + "\n")
 
     if ifObj.closed is False:
         # print("Closing input file...")
@@ -194,6 +198,9 @@ def main(argv):
     if ofObj.closed is False:
         # print("Closing output file...")
         ofObj.close()
+
+    if __debug__:
+        dbgFileObj.close()
 
 
 if __name__ == "__main__":
