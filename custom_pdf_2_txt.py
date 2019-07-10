@@ -36,6 +36,7 @@ def main(argv):
     # handling arguments and options
     # read input file name and output file name
     try:
+        # getopt.getopt(args, shortopts, longopts=[])
         opts, args = getopt.getopt(argv, "hi:o:", ["ifile=", "ofile="])
     except getopt.GetoptError:
         print("syntax: \n\tcustom_pdf_2_txt.py -i <inputfile> -o <outputfile>")
@@ -190,6 +191,16 @@ def main(argv):
         dbgFileObj.write("declaration_form_list:" + str(len(declaration_form_list)) + "\n")
         dbgFileObj.write("tax_ID_list:" + str(len(tax_ID_list)) + "\n")
         dbgFileObj.write("tax_amount_llist:" + str(len(tax_amount_list)) + "\n")
+#
+# compose output file by combining the four lists collected in
+# the above statemachine
+#
+    if len(tax_bill_list) == len(declaration_form_list) == len(tax_ID_list) == \
+        len(tax_amount_list):
+        for i in range(0, len(tax_bill_list)):
+            combined_string = tax_bill_list[i] + ',' + declaration_form_list[i] + \
+                            ',' + tax_ID_list[i] + ',' + tax_amount_list[i] + '\n'
+            ofObj.write(combined_string)
 
     if ifObj.closed is False:
         # print("Closing input file...")
