@@ -15,11 +15,21 @@ $RECYCLE.BIN/
 *.msm
 *.msp
 
+# Windows Executables
+*.exe
+
 # intermediate byte code
 __pycache__\*.pyc
 
+# py2exe files
+.\output
+
 # input test file
 *.pdf
+
+# text-based files
+*.text
+*.txt
 
 # Windows shortcuts
 *.lnk
@@ -28,3 +38,5 @@ __pycache__\*.pyc
 # Operating System Files
 # =========================
 201905_output.txt
+*.csv
+*.pyc

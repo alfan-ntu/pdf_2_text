@@ -65,7 +65,7 @@ def main(argv):
     stripped_file_name = input_file[:len(input_file)-3]
     # intermediate .txt file
     if textoutput_file == "":
-        textoutput_file = stripped_file_name + "txt"
+        textoutput_file = stripped_file_name + "text"
     print("彙總稅單文字內容:", textoutput_file)
     if os.path.isfile("./"+ textoutput_file):
 #        print("彙總稅單文字內容 file exists!")
@@ -77,8 +77,8 @@ def main(argv):
     # ultimate .csv output
     stripped_file_name = input_file[:len(input_file)-3]
     if output_file == "":
-        output_file = stripped_file_name + "csv"
-    print("彙總稅單清單轉出名稱(csv)", output_file)
+        output_file = stripped_file_name + "txt"
+    print("彙總稅單清單轉出名稱(tab separated)", output_file)
     ofObj = open(output_file, "w", encoding="utf-8")
 
     all_texts = None
@@ -241,8 +241,8 @@ def main(argv):
     if len(tax_bill_list) == len(declaration_form_list) == len(tax_ID_list) == \
         len(tax_amount_list):
         for i in range(0, len(tax_bill_list)):
-            combined_string = tax_bill_list[i] + ',' + declaration_form_list[i] + \
-                            ',' + tax_ID_list[i] + ',' + tax_amount_list[i] + '\n'
+            combined_string = tax_bill_list[i] + "\t" + declaration_form_list[i] + \
+                            "\t" + tax_ID_list[i] + "\t" + tax_amount_list[i] + "\n"
             ofObj.write(combined_string)
 
     if ifObj.closed is False:
