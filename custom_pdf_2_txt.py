@@ -7,6 +7,7 @@ import pdb
 import pdfminer
 import pdfminer.high_level
 import pdfminer.layout
+import excel_output
 
 
 def main(argv):
@@ -66,7 +67,7 @@ def main(argv):
     # intermediate .txt file
     if textoutput_file == "":
         textoutput_file = stripped_file_name + "text"
-    print("彙總稅單文字內容:", textoutput_file)
+    print("彙總稅單文字內容(text):", textoutput_file)
     if os.path.isfile("./"+ textoutput_file):
 #        print("彙總稅單文字內容 file exists!")
         os.remove("./"+ textoutput_file)
@@ -102,7 +103,7 @@ def main(argv):
 
 #    tfObj.seek(0, 0)
 
-    if __debug__:
+    if __debug__ is False:
         dbgFileObj = open("debug_output.txt", "w", encoding="utf-8")
 
 #    pdb.set_trace()
@@ -123,7 +124,8 @@ def main(argv):
 #        if tfStr.strip("\n") == constant.FILE_HEADER:
         if tfStr.strip('\n') == constant.FILE_HEADER:
             # 彙總稅單稅單清單
-            print("File Header: ", tfStr.strip('\n'))
+            if __debug__ is False:
+                print("File Header: ", tfStr.strip('\n'))
 #        elif tfStr.strip('\n') == constant.FILE_TAILER:
             # 總筆數"
 #            print("File Tailer: ", tfStr.strip('\n'))
@@ -134,7 +136,8 @@ def main(argv):
                 es.clear_current_setting()
             tax_bill_entry = True
             es.set_current_entry(tax_bill_entry, decl_form_entry, tax_ID_entry, tax_amount_entry)
-            print("Beginning declaration ID: ", tfStr.strip('\n'))
+            if __debug__ is False:
+                print("Beginning declaration ID: ", tfStr.strip('\n'))
 #        elif tfStr.strip('\n') == constant.PAGE_TAILER:
             # 製表日期
 #            print("Page Tailer: ", tfStr.strip('\n'))
@@ -145,7 +148,8 @@ def main(argv):
                 es.clear_current_setting()
             tax_ID_entry = True
             es.set_current_entry(tax_bill_entry, decl_form_entry, tax_ID_entry, tax_amount_entry)
-            print("Tax ID: ", tfStr.strip('\n'))
+            if __debug__ is False:
+                print("Tax ID: ", tfStr.strip('\n'))
         elif tfStr.strip('\n') == constant.BEGINNING_AMOUNT_COLUMN:
             # 金額
             print_flag = True
@@ -153,30 +157,26 @@ def main(argv):
                 es.clear_current_setting()
             tax_amount_entry = True
             es.set_current_entry(tax_bill_entry, decl_form_entry, tax_ID_entry, tax_amount_entry)
-            print("Amount: ", tfStr.strip('\n'))
+            if __debug__ is False:
+                print("Amount: ", tfStr.strip('\n'))
         elif tfStr.strip('\n') == constant.END_AMOUNT_COLUMN_P1:
             print_flag = True
             tax_bill_entry, decl_form_entry, tax_ID_entry, tax_amount_entry = \
                 es.clear_current_setting()
-            if __debug__:
+            if __debug__ is False:
                 dbgFileObj.write("<<<<製表日期>>>>\n")
         elif tfStr[:2] == constant.END_TAX_ID_P2:
             print_flag = True
             tax_bill_entry, decl_form_entry, tax_ID_entry, tax_amount_entry = \
                 es.clear_current_setting()
-            if __debug__:
+            if __debug__ is False:
                 dbgFileObj.write("<<<<頁碼>>>>\n")
         elif tfStr.strip('\n') == constant.RECORD_COUNT:
             print_flag = True
             tax_bill_entry, decl_form_entry, tax_ID_entry, tax_amount_entry = \
                 es.clear_current_setting()
-            if __debug__:
+            if __debug__ is False:
                 dbgFileObj.write("<<<<總筆數>>>>\n")
-
-#        elif tfStr.strip('\n') == "":
-#            print_flag = False
-#            tax_bill_entry, decl_form_entry, tax_ID_entry, tax_amount_entry = \
-#                es.clear_current_setting()
 
         #
         # processing per state machine
@@ -191,8 +191,8 @@ def main(argv):
         if tax_bill_entry is True:
             if print_flag is True:
                 print_flag = False
-                print("處理稅單、報單資料")
-                if __debug__:
+#                print("處理稅單、報單資料")
+                if __debug__ is False:
                     dbgFileObj.write(tfStr)
             else:
                 if tfStr.strip('\n') != "":
@@ -202,34 +202,34 @@ def main(argv):
                     else:
                         declaration_form_list.append(tfStr.strip('\n'))
                         tax_bill_or_not = True
-                    if __debug__:
+                    if __debug__ is False:
                         dbgFileObj.write(tfStr)
         elif tax_ID_entry is True:
             if print_flag is True:
                 print_flag = False
-                print("處理統一編號")
-                if __debug__:
+#                print("處理統一編號")
+                if __debug__ is False:
                     dbgFileObj.write(tfStr)
             else:
                 if tfStr.strip('\n') != "":
                     tax_ID_list.append(tfStr.strip('\n'))
-                    if __debug__:
+                    if __debug__ is False:
                         dbgFileObj.write(tfStr)
         elif tax_amount_entry is True:
             if print_flag is True:
                 print_flag = False
-                print("金額")
-                if __debug__:
+#                print("金額")
+                if __debug__ is False:
                     dbgFileObj.write(tfStr)
             else:
                 if tfStr.strip('\n') != "":
                     tax_amount_list.append(tfStr.strip('\n'))
-                    if __debug__:
+                    if __debug__ is False:
                         dbgFileObj.write(tfStr)
 
         tfStr = tfObj.readline()
 
-    if __debug__:
+    if __debug__ is False:
         dbgFileObj.write("tax_bill_list length:" + str(len(tax_bill_list)) + "\n")
         dbgFileObj.write("declaration_form_list:" + str(len(declaration_form_list)) + "\n")
         dbgFileObj.write("tax_ID_list:" + str(len(tax_ID_list)) + "\n")
@@ -244,19 +244,19 @@ def main(argv):
             combined_string = tax_bill_list[i] + "\t" + declaration_form_list[i] + \
                             "\t" + tax_ID_list[i] + "\t" + tax_amount_list[i] + "\n"
             ofObj.write(combined_string)
+        excel_output.generate_excel_output(stripped_file_name, tax_bill_list, declaration_form_list, tax_ID_list, tax_amount_list)
 
     if ifObj.closed is False:
         # print("Closing input file...")
         ifObj.close()
 
     if ofObj.closed is False:
-        print("產出彙總稅單清單轉檔:", output_file)
         ofObj.close()
 
     if tfObj.closed is False:
         tfObj.close()
 
-    if __debug__:
+    if __debug__ is False:
         dbgFileObj.close()
 
 

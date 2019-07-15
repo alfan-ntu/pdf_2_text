@@ -40,3 +40,4 @@ __pycache__\*.pyc
 201905_output.txt
 *.csv
 *.pyc
+*.xlsx
