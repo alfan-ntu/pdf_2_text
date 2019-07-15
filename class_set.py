@@ -90,34 +90,35 @@ class entry_setting:
         return self.tax_bill_entry, self.decl_form_entry, self.tax_ID_entry, \
             self.tax_amount_entry
 
+""" for debug purpose only
+    #
+    # Test cases of this class
+    #
+    # pdb.set_trace()
+    tax_bill_entry = False          # 稅單資料輸入
+    decl_form_entry = False          # 報單資料輸入
+    tax_ID_entry = False            # 統一編號輸入
+    tax_amount_entry = True         # 報單金額輸入
+    #    es = class_set.entry_setting(tax_bill_entry, decl_form_entry, tax_ID_entry,
+    #                    tax_amount_entry)
 
-#
-# Test cases of this class
-#
-#pdb.set_trace()
-tax_bill_entry = False          # 稅單資料輸入
-decl_form_entry = False          # 報單資料輸入
-tax_ID_entry = False            # 統一編號輸入
-tax_amount_entry = True         # 報單金額輸入
-#    es = class_set.entry_setting(tax_bill_entry, decl_form_entry, tax_ID_entry,
-#                    tax_amount_entry)
+    es = entry_setting(tax_bill_entry, decl_form_entry, tax_ID_entry, tax_amount_entry)
+    #  es.set_current_entry(tax_bill_entry, decl_form_entry, tax_ID_entry, tax_amount_entry)
+    es.set_current_entry(True, False, True, False)
+    # value_es = es.get_current_setting()
+    # print("Current entry setting:", value_es)
+    valid_entry, tax_bill_entry, decl_form_entry, tax_ID_entry, tax_amount_entry = es.get_current_setting()
+    print("Valid entry:", valid_entry)
+    print("tax_bill_entry:", tax_bill_entry)
+    print("decl_form_entry:", decl_form_entry)
+    print("tax_ID_entry:", tax_ID_entry)
+    print("tax_amount_entry:", tax_amount_entry)
 
-es = entry_setting(tax_bill_entry, decl_form_entry, tax_ID_entry, tax_amount_entry)
-#  es.set_current_entry(tax_bill_entry, decl_form_entry, tax_ID_entry, tax_amount_entry)
-es.set_current_entry(True, False, True, False)
-# value_es = es.get_current_setting()
-# print("Current entry setting:", value_es)
-valid_entry, tax_bill_entry, decl_form_entry, tax_ID_entry, tax_amount_entry = es.get_current_setting()
-print("Valid entry:", valid_entry)
-print("tax_bill_entry:", tax_bill_entry)
-print("decl_form_entry:", decl_form_entry)
-print("tax_ID_entry:", tax_ID_entry)
-print("tax_amount_entry:", tax_amount_entry)
-
-tax_bill_entry, decl_form_entry, tax_ID_entry, tax_amount_entry = es.clear_current_setting()
-value_es = es.get_current_setting()
-print("Entry setting cleared:", value_es)
-print("tax_bill_entry:", tax_bill_entry)
-print("decl_form_entry:", decl_form_entry)
-print("tax_ID_entry:", tax_ID_entry)
-print("tax_amount_entry:", tax_amount_entry)
+    tax_bill_entry, decl_form_entry, tax_ID_entry, tax_amount_entry = es.clear_current_setting()
+    value_es = es.get_current_setting()
+    print("Entry setting cleared:", value_es)
+    print("tax_bill_entry:", tax_bill_entry)
+    print("decl_form_entry:", decl_form_entry)
+    print("tax_ID_entry:", tax_ID_entry)
+    print("tax_amount_entry:", tax_amount_entry)
+"""

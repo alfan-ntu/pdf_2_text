@@ -15,6 +15,12 @@ $RECYCLE.BIN/
 *.msm
 *.msp
 
+# intermediate byte code
+__pycache__\*.pyc
+
+# input test file
+*.pdf
+
 # Windows shortcuts
 *.lnk
 
