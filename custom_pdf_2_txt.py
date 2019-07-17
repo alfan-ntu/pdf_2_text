@@ -241,7 +241,7 @@ def main(argv):
     if len(tax_bill_list) == len(declaration_form_list) == len(tax_ID_list) == \
         len(tax_amount_list):
         for i in range(0, len(tax_bill_list)):
-            combined_string = tax_bill_list[i] + "\t" + declaration_form_list[i] + \
+            combined_string = declaration_form_list[i] + "\t" + tax_bill_list[i] + \
                             "\t" + tax_ID_list[i] + "\t" + tax_amount_list[i] + "\n"
             ofObj.write(combined_string)
         excel_output.generate_excel_output(stripped_file_name, tax_bill_list, declaration_form_list, tax_ID_list, tax_amount_list)

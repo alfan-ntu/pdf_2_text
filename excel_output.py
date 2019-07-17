@@ -8,8 +8,8 @@ def generate_excel_output(stripped_file_name, tax_bill_list, declaration_form_li
     spread_sheet = []
     row = []
     for i in range(0, len(tax_bill_list)):
-        row.append(tax_bill_list[i])
         row.append(declaration_form_list[i])
+        row.append(tax_bill_list[i])
         row.append(tax_ID_list[i])
         row.append(tax_amount_list[i])
         spread_sheet.append(row)
