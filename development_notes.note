@@ -1,0 +1,18 @@
+<2019.8.7>
+  1. Topic: pyinstaller
+     website: https://www.pyinstaller.org/
+     After completing the python script development, one might consider compiling it(them) to
+     a native binary executable without installing python in the platform to execute the
+     python script(s).
+     It is quite easy to use this tool.
+     1.1. Pyinstaller Quickstart
+      a. Installing pyinstaller from PyPI
+        $ pip install pyinstaller
+
+      b. Compiling python scripts to its executable
+        $ pyinstaller --onefile <target_python>.py
+
+        ex.
+        $ pyinstaller --onefile custom_pdf_2_txt.py
+
+      c. checking out the binary generated in the directory .\dist 
